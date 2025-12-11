@@ -16,3 +16,5 @@ spec:
     automated:
       prune: true      # If the file it's deleted at git, it will be deleted in the cluster too
       selfHeal: true   # Reverts manual changes, to match the git state
+  syncOptions:
+      - CreateNamespace=true
