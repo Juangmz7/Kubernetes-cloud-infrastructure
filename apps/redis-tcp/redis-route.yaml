@@ -1,0 +1,13 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2  
+kind: TCPRoute
+metadata:
+  name: redis-route
+  namespace: final-project
+spec:
+  parentRefs:
+  - name: gateway        # Reference to the gateway
+    sectionName: tcp-redis  # Refers to the listener
+  rules:
+  - backendRefs:
+    - name: redis-service
+      port: 6379

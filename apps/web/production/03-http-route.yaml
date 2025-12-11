@@ -1,0 +1,24 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-route
+  namespace: final-project
+spec:
+  parentRefs:
+  - name: gateway         # Connection with gateway
+    sectionName: http     # Reffers to the gateway listener for http
+  hostnames:
+  - "up.78.cloudops.ucll.cloud"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /             
+    backendRefs:
+    - name: web-service   # Sends to (Service)
+      port: 80
+      weight: 50
+    
+    - name: web-v2-service
+      port: 80
+      weight: 50

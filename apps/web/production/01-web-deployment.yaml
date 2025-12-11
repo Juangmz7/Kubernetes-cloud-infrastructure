@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-proyect 
+  namespace: final-project      
+  labels:
+    app: web
+spec:
+  # replicas: 1             # Comented for kedas to take the lead
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web-v1
+        image: juangmz7/my-final-project:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        resources:        
+          requests:
+            cpu: "100m"     # Request 0.1 CPU 
+            memory: "128Mi"
+          limits:
+            cpu: "200m"    # Set CPU limit in 0.2
+            memory: "256Mi"
+          

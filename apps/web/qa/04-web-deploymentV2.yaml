@@ -1,0 +1,31 @@
+# APP version 2
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-v2
+  namespace: qa
+  labels:
+    app: web-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-v2
+  template:
+    metadata:
+      labels:
+        app: web-v2
+    spec:
+      containers:
+      - name: web-v2
+        image: nginx:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        resources:        
+            requests:
+              cpu: "100m"     # Request 0.1 CPU 
+              memory: "128Mi"
+            limits:
+              cpu: "200m"    # Set CPU limit in 0.2
+              memory: "256Mi"

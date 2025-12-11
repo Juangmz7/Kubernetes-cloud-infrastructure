@@ -1,0 +1,34 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+  namespace: final-project
+spec:
+  gatewayClassName: eg       # Envoy gateway model
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+    allowedRoutes:
+      kinds:
+      - kind: HTTPRoute
+      namespaces: 
+        from: All  # Allows others namespace like qa
+  
+  - name: tcp-redis
+    protocol: TCP
+    port: 6379
+    allowedRoutes:
+      kinds:
+      - kind: TCPRoute
+      namespaces:
+        from: Same
+    
+  - name: udp-echo
+    protocol: UDP
+    port: 9000
+    allowedRoutes:
+      kinds:
+      - kind: UDPRoute
+      namespaces:
+        from: Same

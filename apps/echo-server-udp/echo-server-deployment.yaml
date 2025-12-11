@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udp-echo
+  namespace: final-project
+  labels:
+    app: udp-echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udp-echo
+  template:
+    metadata:
+      labels:
+        app: udp-echo
+    spec:
+      containers:
+      - name: agnhost
+        image: registry.k8s.io/e2e-test-images/agnhost:2.39
+        # Sets up an UDP server on port 9000
+        command: ["/agnhost", "netexec", "--udp-port=9000"]
+        ports:
+        - containerPort: 9000
+          protocol: UDP
+        resources:
+          requests:
+            cpu: "20m"
+            memory: "32Mi"
+          limits:
+            cpu: "50m"
+            memory: "64Mi"

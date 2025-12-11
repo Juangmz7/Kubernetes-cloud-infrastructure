@@ -1,0 +1,37 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: web-scaler
+  namespace: final-project
+spec:
+  scaleTargetRef:
+    name: web-proyect   
+  minReplicaCount: 1        # Minimum pods during normal hours
+  maxReplicaCount: 10       # Maximum pods under heavy load
+  pollingInterval:  15      # Frequency for checking the work load in seconds
+  cooldownPeriod:   120                                     
+  fallback:                                                 
+    failureThreshold: 3     #  If Connection fails 3 times then safe mode
+    replicas: 2             # Safe mode 
+  triggers:
+  # Cron Scaler
+  - type: cron
+    metadata:
+      timezone: Europe/Brussels  
+      start: "0 20 * * *"        # At 20:00 
+      end: "0 8 * * *"           # At 08:00 
+      desiredReplicas: "1" 
+
+  # Cron Scaler
+  - type: cron
+    metadata:
+      timezone: Europe/Brussels  
+      start: "0 12 * * *"        # At 12:00 
+      end: "0 17 * * *"           # At 17:00 
+      desiredReplicas: "5"       # Force scale up to 5 pod this range
+      
+  # Workload Scaler
+  - type: cpu
+    metricType: Utilization
+    metadata:
+      value: "50"                # Scale up if CPU usage exceeds 50%

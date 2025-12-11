@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: web-app-qa
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/Juangmz7/Kubernetes-cloud-infrastructure.git'  
+    targetRevision: HEAD
+    path: apps/web/qa   # Folder to check
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: qa
+  syncPolicy:
+    automated:
+      prune: true      # If the file it's deleted at git, it will be deleted in the cluster too
+      selfHeal: true   # Reverts manual changes, to match the git state

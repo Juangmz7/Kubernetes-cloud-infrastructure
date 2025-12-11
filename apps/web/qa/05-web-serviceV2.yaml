@@ -1,0 +1,13 @@
+# SERVICE version 2
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-v2-service
+  namespace: qa
+spec:
+  selector:
+    app: web-v2
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
